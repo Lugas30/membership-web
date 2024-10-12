@@ -4,7 +4,6 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import logo from "../../public/logo.png";
-// import Barcode from "react-barcode";
 
 interface ProfileData {
   id_member: string;
@@ -22,11 +21,7 @@ interface ProfileData {
 
 const Home = () => {
   const router = useRouter();
-  const idMember = localStorage.getItem("auth_idMember") || "";
-
-  if (idMember == null) {
-    router.push("/");
-  }
+  const [idMember, setIdMember] = useState<string | null>(null);
 
   const [dataProfile, setDataProfile] = useState<ProfileData>({
     id_member: "",
@@ -41,10 +36,23 @@ const Home = () => {
     tglLahir: "",
     minatKategori: "-",
   });
+
   const [points, setPoints] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
+  // This effect will run on the client side to set the idMember from localStorage
   useEffect(() => {
+    const id = localStorage.getItem("auth_idMember");
+    if (id) {
+      setIdMember(id);
+    } else {
+      router.push("/");
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (!idMember) return;
+
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
@@ -137,9 +145,6 @@ const Home = () => {
           </small>
 
           <hr></hr>
-          {/* <p className="text-lg text-gray-600 text-center">
-            Selamat Datang di Membership Portal AMS CORP
-          </p> */}
 
           <p className="text-center text-lg mt-4">Point Anda Saat Ini:</p>
           <span className="block text-center text-3xl font-bold text-indigo-500">
@@ -154,18 +159,6 @@ const Home = () => {
               {formatPhoneNumber(dataProfile.notelpon)}
             </small>
           </div>
-
-          {/* <div className="mt-4">
-          <Barcode
-            value={dataProfile.id_member}
-            displayValue={false}
-            height={50}
-            width={1.5}
-          />
-          <small className="text-center text-sm">
-            ID Member: {dataProfile.id_member}
-          </small>
-        </div> */}
 
           <button
             className="mt-6 w-full py-2 bg-red-500 hover:bg-red-600 text-white rounded-full transition-colors duration-300 focus:outline-none"
