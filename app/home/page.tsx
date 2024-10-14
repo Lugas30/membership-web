@@ -85,7 +85,7 @@ const Home = () => {
         const response = await axios.get(
           `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/info?id_member=${idMember}`
         );
-        setPoints(response.data.memberInfoData.points || 0);
+        setPoints(response.data.memberInfoData.sisaPoint || 0);
       } catch (error) {
         console.error("Error fetching points:", error);
       }
