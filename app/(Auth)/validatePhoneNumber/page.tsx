@@ -76,12 +76,12 @@ const ValidatePhoneNumber = () => {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <form onSubmit={handleValidation}>
-            <h1 className="text-4xl font-bold mb-8 text-gray-800">
-              Validasi Nomor Anda
+            <h1 className="text-3xl font-bold mb-8 text-gray-800">
+              Validasi Nomor
             </h1>
-            <p className="text-sm text-gray-500 mb-10">
-              Pastikan anda memasukan nomor yang telah terdaftar dan aktif. Kode
-              OTP akan dikirimkan ke WhatsApp anda.
+            <p className="text-xs text-gray-500 mb-10">
+              Pastikan memasukan nomor yang telah terdaftar dan aktif. Kode OTP
+              akan dikirimkan ke WhatsApp anda.
             </p>
             <div>
               <label
@@ -95,14 +95,14 @@ const ValidatePhoneNumber = () => {
                 id="Nomor telepon"
                 name="userAccount"
                 placeholder="08123xxxxxx"
-                className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-2 p-3 border border-gray-300 rounded-lg w-full"
                 value={data.userAccount}
                 onChange={handleChange}
               />
             </div>
             <button
               disabled={isPressed}
-              className="mt-5 bg-gradient-to-tr from-blue-950 to-blue-700 text-white font-bold py-5 rounded-lg w-full hover:opacity-90 transition duration-300"
+              className="mt-5 bg-blue-950 text-white text-sm font-bold py-5 rounded-lg w-full hover:opacity-90 transition duration-300"
             >
               {isPressed ? "Loading..." : "Validasi"}
             </button>

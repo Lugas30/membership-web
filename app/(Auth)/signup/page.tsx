@@ -173,8 +173,8 @@ const Signup = () => {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md my-5">
           <form onSubmit={handleSignup}>
-            <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
-              Daftar Membership
+            <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+              Daftar Member
             </h1>
             <div className="mb-2">
               <label htmlFor="fullname" className="label text-xs">
@@ -439,7 +439,7 @@ const Signup = () => {
             <button
               type="submit"
               disabled={isPressed}
-              className="mt-6 bg-blue-500 text-white font-bold py-3 rounded-lg w-full hover:bg-blue-600 transition duration-300"
+              className="mt-5 bg-blue-950 text-sm text-white font-bold py-5 rounded-lg w-full hover:opacity-90 transition duration-300"
             >
               {isPressed ? "Processing..." : "Daftar"}
             </button>

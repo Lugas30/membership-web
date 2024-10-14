@@ -106,11 +106,11 @@ const OtpInput = () => {
     <>
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-          <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
+          <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Masukan kode OTP
           </h1>
-          <p className="text-center text-sm text-zinc-500">
-            Kode OTP akan dikirimkan melalui WA, periksa WA anda!
+          <p className="text-center text-xs text-zinc-500">
+            Kode OTP akan dikirimkan melalui WA.
           </p>
           <form onSubmit={handleSubmit}>
             <div className="flex justify-center my-5">
@@ -131,7 +131,7 @@ const OtpInput = () => {
 
             <button
               type="submit"
-              className="mt-5 bg-gradient-to-tr from-blue-950 to-blue-700 text-white font-bold py-5 rounded-lg w-full hover:opacity-90 transition duration-300"
+              className="mt-5 bg-blue-950 text-sm text-white font-bold py-5 rounded-lg w-full hover:opacity-90 transition duration-300"
               disabled={isPressed} // Disable button when pressed
             >
               {isPressed ? "Memvalidasi OTP..." : "Kirim"}
@@ -149,7 +149,7 @@ const OtpInput = () => {
                     onClick={handleOTP}
                     className="text-blue-500 cursor-pointer"
                   >
-                    Kirim ulang OTP!
+                    Kirim ulang OTP.
                   </span>
                 )}
               </p>

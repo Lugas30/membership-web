@@ -106,7 +106,7 @@ const Signin = () => {
     <>
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-          <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
+          <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Masuk ke akun Member
           </h1>
           {/* <form
@@ -251,7 +251,7 @@ const Signin = () => {
             </div>
 
             <button
-              className="mt-6 bg-blue-500 text-white font-bold py-3 rounded-lg w-full hover:bg-blue-600 transition duration-300"
+              className="mt-6 bg-blue-950 text-sm text-white font-bold py-3 rounded-lg w-full hover:bg-blue-600 transition duration-300"
               disabled={isPressed}
             >
               {isPressed ? "Loading..." : "Masuk"}

@@ -199,14 +199,14 @@ const ValidateFormData = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 py-5">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <div className="">
-            <h1 className="text-2xl font-bold text-center mb-3">
+            <h1 className="text-3xl font-bold text-center mb-3">
               Validasi Data
             </h1>
             <p className="text-center italic text-xs text-gray-500 mb-5">
-              Harap lengkapi data diri anda, pastikan data yang anda masukkan
+              Harap lengkapi data diri anda, pastikan data yang dimasukkan
               benar.
             </p>
             <form onSubmit={handleSubmit}>
@@ -387,7 +387,7 @@ const ValidateFormData = () => {
               <div className="mb-2">
                 <button
                   disabled={isPressed}
-                  className="mt-5 bg-gradient-to-tr from-blue-950 to-blue-700 text-white font-bold py-5 rounded-lg w-full hover:opacity-90 transition duration-300"
+                  className="mt-5 bg-blue-950 text-sm text-white font-bold py-5 rounded-lg w-full hover:opacity-90 transition duration-300"
                 >
                   {isPressed ? "Loading..." : "Submit"}
                 </button>

@@ -20,7 +20,7 @@ const WelcomeMember = () => {
         <div className="text-center border p-6 space-y-6">
           <div className="space-y-2">
             <Link href="/signin">
-              <button className=" bg-blue-600 text-white font-bold py-3 rounded-full w-full hover:bg-blue-700 transition duration-300 shadow-lg">
+              <button className=" bg-blue-950 text-white font-bold py-3 rounded-full w-full hover:bg-blue-700 transition duration-300 shadow-lg">
                 Masuk Akun
               </button>
             </Link>

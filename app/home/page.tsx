@@ -128,12 +128,12 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
         <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transform transition duration-500 hover:scale-105">
           <Image
             src={logo}
             alt="Logo"
-            width={200}
+            width={120}
             height={200}
             className="mx-auto mb-10"
           />
@@ -146,9 +146,9 @@ const Home = () => {
 
           <hr></hr>
 
-          <p className="text-center text-lg mt-4">Point Anda Saat Ini:</p>
-          <span className="block text-center text-3xl font-bold text-indigo-500">
-            {points} Point
+          <p className="text-center text-sm font-bold mt-4 mb-2 ">Poin Aktif</p>
+          <span className="block text-center text-3xl font-bold text-blue-500">
+            {points}
           </span>
 
           <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-inner">
