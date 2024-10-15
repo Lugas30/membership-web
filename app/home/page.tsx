@@ -48,6 +48,17 @@ const Home = () => {
     } else {
       router.push("/");
     }
+
+    // Clear localStorage when user closes or refreshes the browser
+    const handleBeforeUnload = () => {
+      localStorage.clear();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [router]);
 
   useEffect(() => {
