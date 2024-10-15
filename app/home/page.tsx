@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import logo from "../../public/logo.png";
+import logo from "../../public/ams_color.svg";
 
 interface ProfileData {
   id_member: string;
