@@ -46,6 +46,11 @@ const Signup = () => {
     error_list: [], // Initialize as an empty array of strings
   });
 
+  // Clear localStorage when the component mounts
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
