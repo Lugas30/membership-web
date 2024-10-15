@@ -45,14 +45,14 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <span className="text-xs text-gray-500">Belum menjadi member?</span>
             <Link href="/signup">
               <button className="text-sm bg-blue-500 text-white font-bold py-3 rounded-lg w-full hover:opacity-90 transition duration-300 shadow-lg">
                 Daftar Member
               </button>
             </Link>
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-between mt-5">
           <Image src={logo1} alt="Logo" width={75} height={200} />
