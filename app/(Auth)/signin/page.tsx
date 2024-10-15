@@ -251,7 +251,7 @@ const Signin = () => {
             </div>
 
             <button
-              className="mt-6 bg-blue-950 text-sm text-white font-bold py-3 rounded-lg w-full hover:bg-blue-600 transition duration-300"
+              className="mt-6 bg-blue-950 text-sm text-white hover:opacity-90 font-bold py-3 rounded-lg w-full transition duration-300"
               disabled={isPressed}
             >
               {isPressed ? "Loading..." : "Masuk"}
