@@ -58,7 +58,15 @@ const Signup = () => {
   const handleInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setSignupInput({ ...signupInput, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // Regex to disallow quotes (single and double) and percent signs
+    const forbiddenChars = /['"%;:]/g;
+
+    // Remove forbidden characters from the input value
+    const sanitizedValue = value.replace(forbiddenChars, "");
+
+    setSignupInput({ ...signupInput, [name]: sanitizedValue });
   };
 
   const clearErrorMessage = () => {

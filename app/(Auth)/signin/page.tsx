@@ -109,49 +109,7 @@ const Signin = () => {
           <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Masuk ke akun Member
           </h1>
-          {/* <form
-            onSubmit={loginSubmit}
-            method="post"
-            className="flex flex-col gap-6"
-          >
-            <div>
-              <label
-                htmlFor="Nomor telepon"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nomor telepon
-              </label>
-              <input
-                type="text"
-                id="Nomor telepon"
-                placeholder="Nomor telepon"
-                className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
 
-            <div>
-              <label
-                htmlFor="Password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                PIN / Password (6 Digit)
-              </label>
-              <input
-                type="password"
-                id="Password"
-                placeholder="PIN / Password"
-                className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="mt-6 bg-blue-500 text-white font-bold py-3 rounded-lg w-full hover:bg-blue-600 transition duration-300"
-              disabled={isPressed}
-            >
-              {isPressed ? "Loading..." : "Masuk"}
-            </button>
-          </form> */}
           <form onSubmit={loginSubmit} method="post">
             <div className="mb-2">
               <label htmlFor="user" className="label text-xs">

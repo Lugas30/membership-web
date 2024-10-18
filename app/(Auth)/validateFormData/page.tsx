@@ -132,6 +132,12 @@ const ValidateFormData = () => {
   ) => {
     const { name, value } = e.target;
 
+    // Regex to disallow quotes (single and double) and percent signs
+    const forbiddenChars = /['"%;:]/g;
+
+    // Remove forbidden characters from the input value
+    const sanitizedValue = value.replace(forbiddenChars, "");
+
     // For password field, ensure it only accepts numbers and is 6 digits long
     if (name === "pin") {
       if (/^\d{0,6}$/.test(value)) {
@@ -139,7 +145,7 @@ const ValidateFormData = () => {
         setData({ ...data, [name]: value });
       }
     } else {
-      setData({ ...data, [name]: value });
+      setData({ ...data, [name]: sanitizedValue });
     }
   };
 
