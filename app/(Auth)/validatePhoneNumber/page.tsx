@@ -91,13 +91,14 @@ const ValidatePhoneNumber = () => {
                 Nomor telepon
               </label>
               <input
-                type="text"
-                id="Nomor telepon"
+                type="tel"
+                id="userAccount"
                 name="userAccount"
                 placeholder="08123xxxxxx"
                 className="mt-2 p-3 border border-gray-300 rounded-lg w-full"
                 value={data.userAccount}
                 onChange={handleChange}
+                maxLength={15}
               />
             </div>
             <button
