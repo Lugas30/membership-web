@@ -21,7 +21,7 @@ interface ProfileData {
 
 const Home = () => {
   const router = useRouter();
-  const [idMember, setIdMember] = useState<string | null>(null);
+  const [memberID, setMemberID] = useState<string | null>(null);
 
   const [dataProfile, setDataProfile] = useState<ProfileData>({
     id_member: "",
@@ -40,28 +40,28 @@ const Home = () => {
   const [points, setPoints] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // This effect will run on the client side to set the idMember from localStorage
+  // This effect will run on the client side to set the memberID from localStorage
   useEffect(() => {
-    const id = localStorage.getItem("auth_idMember");
+    const id = localStorage.getItem("auth_memberID");
     if (id) {
-      setIdMember(id);
+      setMemberID(id);
     } else {
       router.push("/");
     }
   }, [router]);
 
   useEffect(() => {
-    if (!idMember) return;
+    if (!memberID) return;
 
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/profile?id_member=${idMember}`
+          `https://golangapi-j5iu.onrender.com/api/member/mobile/profile?id_member=${memberID}`
         );
         const memberData = response.data.memberData;
         setDataProfile({
           ...dataProfile,
-          id_member: idMember,
+          id_member: memberID,
           namaLengkap: memberData.nama,
           namaPanggilan: memberData.namaPanggilan,
           notelpon: memberData.notelpon,
@@ -83,7 +83,7 @@ const Home = () => {
     const fetchPoints = async () => {
       try {
         const response = await axios.get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/info?id_member=${idMember}`
+          `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/info?id_member=${memberID}`
         );
         setPoints(response.data.memberInfoData.sisaPoint || 0);
       } catch (error) {
@@ -93,7 +93,7 @@ const Home = () => {
 
     fetchProfile();
     fetchPoints();
-  }, [idMember]);
+  }, [memberID]);
 
   const formatPhoneNumber = (value: string) => {
     if (!value) return value;

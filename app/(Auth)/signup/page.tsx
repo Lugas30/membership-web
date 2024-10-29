@@ -128,7 +128,7 @@ const Signup = () => {
           );
 
           // Store member ID in localStorage and navigate to OTP page
-          localStorage.setItem("idMember", res.data.memberData.idMember);
+          localStorage.setItem("memberID", res.data.memberData.memberID);
           toast.success(`OTP terkirim ke nomor ${data.notelpon}`, {
             autoClose: 2000,
           });

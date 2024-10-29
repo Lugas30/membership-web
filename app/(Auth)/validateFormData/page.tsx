@@ -32,12 +32,12 @@ interface FormData {
 
 const ValidateFormData = () => {
   const router = useRouter();
-  const idMember =
+  const memberID =
     typeof window !== "undefined"
-      ? localStorage.getItem("auth_idMember")
+      ? localStorage.getItem("auth_memberID")
       : null;
 
-  if (typeof window !== "undefined" && idMember == null) {
+  if (typeof window !== "undefined" && memberID == null) {
     window.location.href = "/";
   }
 
@@ -65,12 +65,12 @@ const ValidateFormData = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/profile?id_member=${idMember}`
+          `https://golangapi-j5iu.onrender.com/api/member/mobile/profile?id_member=${memberID}`
         );
         const memberData = response.data.memberData;
         setData({
           ...data,
-          id_member: idMember ?? "",
+          id_member: memberID ?? "",
           namaLengkap: memberData.nama,
           notelpon: memberData.notelpon,
           email: memberData.email,
@@ -88,8 +88,8 @@ const ValidateFormData = () => {
         setLoading(false);
       }
     };
-    if (idMember) fetchProfile();
-  }, [idMember]); // Add idMember as a dependency
+    if (memberID) fetchProfile();
+  }, [memberID]); // Add idMember as a dependency
 
   useEffect(() => {
     const fetchProvince = async () => {

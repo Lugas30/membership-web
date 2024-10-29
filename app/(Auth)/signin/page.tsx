@@ -78,7 +78,7 @@ const Signin = () => {
         )
         .then((res) => {
           if (res.data.responseCode == "2002500") {
-            localStorage.setItem("auth_idMember", res.data.loginData.idMember);
+            localStorage.setItem("auth_memberID", res.data.loginData.memberID);
             localStorage.setItem("auth_name", res.data.loginData.nama);
             toast.success("Berhasil", { autoClose: 2000 });
             setTimeout(() => {

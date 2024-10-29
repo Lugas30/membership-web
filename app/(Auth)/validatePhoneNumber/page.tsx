@@ -42,11 +42,11 @@ const ValidatePhoneNumber = () => {
           autoClose: 2000,
         });
       } else if (response.data.responseCode === "2002500") {
-        const { idMember, nama } = response.data.loginData;
-        localStorage.setItem("auth_idMember", idMember);
+        const { memberID, nama } = response.data.loginData;
+        localStorage.setItem("auth_memberID", memberID);
 
         // console.log("Nama:", nama); // Jika ingin menampilkan nama
-        // console.log("ID Member:", idMember); // Jika ingin menampilkan ID Member
+        // console.log("ID Member:", memberID); // Jika ingin menampilkan ID Member
 
         toast.success("Validasi Berhasil", {
           autoClose: 2000,
