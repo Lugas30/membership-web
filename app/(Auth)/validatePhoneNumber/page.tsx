@@ -35,26 +35,22 @@ const ValidatePhoneNumber = () => {
         }
       );
 
-      console.log(response.data); // Logging respons untuk debugging
+      console.log(response.data); // Logging response for debugging
 
       if (response.data.responseCode === "4002500") {
         toast.error("Nomor Telepon Tidak Terdaftar", {
           autoClose: 2000,
         });
       } else if (response.data.responseCode === "2002500") {
-        const { memberID, nama } = response.data.loginData;
+        const { memberID, fullName } = response.data.loginData;
         localStorage.setItem("auth_memberID", memberID);
 
-        // console.log("Nama:", nama); // Jika ingin menampilkan nama
-        // console.log("ID Member:", memberID); // Jika ingin menampilkan ID Member
-
-        toast.success("Validasi Berhasil", {
+        toast.success("Validasi Berhasil, OTP dikirim!", {
           autoClose: 2000,
         });
 
         setTimeout(() => {
           router.push(`/otpinput/${data.userAccount}`);
-          // router.push(`/otpinput`);
         }, 2000);
       } else {
         toast.error("Terjadi kesalahan yang tidak terduga", {

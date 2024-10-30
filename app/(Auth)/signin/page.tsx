@@ -1,14 +1,15 @@
 "use client";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { log } from "console";
 
 interface LoginInput {
   user: string;
   password: string;
-  error_list: string[]; // Explicitly define the type as string[]
+  error_list: string[];
 }
 
 const Signin = () => {
@@ -22,83 +23,88 @@ const Signin = () => {
     error_list: [],
   });
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+  const toggleShowPassword = () => setShowPassword(!showPassword);
 
-  const clearErrorMessage = () => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrorMessage("");
-  };
-
-  const handleInput = (e: any) => {
-    e.persist();
-    clearErrorMessage();
     setLogin({ ...loginInput, [e.target.name]: e.target.value });
   };
 
-  const loginSubmit = (e: any) => {
+  const loginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsPressed(true); // Set loading state while processing
+    setIsPressed(true);
 
-    const data = {
-      user: loginInput.user,
-      password: loginInput.password,
-    };
-
-    // Reset error_list
-    setTimeout(() => {
-      setLogin({ ...loginInput, error_list: [] });
-    }, 3000);
-
-    // Validasi email dan password
+    const data = { user: loginInput.user, password: loginInput.password };
     let errors = [];
-    if (!data.user) {
-      errors.push("Pengguna harus terisi.");
-    }
-    if (!data.password) {
-      errors.push("Kata sandi harus terisi.");
-    }
+    if (!data.user) errors.push("Pengguna harus terisi.");
+    if (!data.password) errors.push("Kata sandi harus terisi.");
 
     if (errors.length > 0) {
-      // Menambahkan pesan kesalahan ke dalam error_list
       setLogin({ ...loginInput, error_list: errors });
-      setTimeout(() => {
-        setIsPressed(false);
-      }, 3000);
-    } else {
-      axios
-        .post(
-          "https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/login",
-          data,
+      setIsPressed(false);
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        "https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/login",
+        data,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (res.data.responseCode === "2002500") {
+        localStorage.setItem("auth_memberID", res.data.loginData.memberID);
+        localStorage.setItem("auth_fullName", res.data.loginData.fullName);
+        toast.success("Login berhasil!", { autoClose: 2000 });
+        setTimeout(() => router.push("/home"), 2000);
+      } else if (res.data.responseCode === "4002500") {
+        toast.error("User atau password salah!", { autoClose: 2000 });
+      } else if (res.data.responseCode === "4002501") {
+        //Tampilkan OTP
+        const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+        localStorage.setItem("otp", randomNumber.toString());
+
+        //kirim otp ke API post
+        const response = await axios.post(
+          `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/Verify?userAccount=${loginInput.user}`,
           {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+            randomNumber: randomNumber,
           }
-        )
-        .then((res) => {
-          if (res.data.responseCode == "2002500") {
-            localStorage.setItem("auth_memberID", res.data.loginData.memberID);
-            localStorage.setItem("auth_name", res.data.loginData.nama);
-            toast.success("Berhasil", { autoClose: 2000 });
-            setTimeout(() => {
-              router.push("/home");
-            }, 2000);
-          } else if (res.data.responseCode == "4002500") {
-            toast.error("Pengguna atau kata sandi salah", { autoClose: 2000 });
-            setIsPressed(false);
-          } else {
-            setErrorMessage(res.data.message);
-            setIsPressed(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Error during login request:", error);
-          setErrorMessage(
-            "Terjadi kesalahan saat melakukan masuk. Silakan coba lagi."
-          );
-          setIsPressed(false);
-        });
+        );
+
+        console.log(response.data); // Logging response for debugging
+
+        if (response.data.responseCode === "4002500") {
+          toast.error("Nomor Telepon Tidak Terdaftar", {
+            autoClose: 2000,
+          });
+        } else if (response.data.responseCode === "2002500") {
+          const { memberID } = response.data.loginData;
+          localStorage.setItem("auth_memberID", memberID);
+
+          toast.success("Validasi Berhasil, OTP dikirim!", {
+            autoClose: 2000,
+          });
+
+          setTimeout(() => {
+            router.push(`/otpregister/${loginInput.user}`);
+          }, 2000);
+        } else {
+          toast.error("Terjadi kesalahan yang tidak terduga", {
+            autoClose: 2000,
+          });
+        }
+      } else {
+        setErrorMessage(res.data.responseMessage || "Terjadi kesalahan.");
+      }
+    } catch (error) {
+      console.error("Error during login request:", error);
+      toast.error(
+        "Terjadi kesalahan saat melakukan masuk. Silakan coba lagi.",
+        { autoClose: 3000 }
+      );
+    } finally {
+      setIsPressed(false);
     }
   };
 
@@ -109,8 +115,7 @@ const Signin = () => {
           <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Masuk ke akun Member
           </h1>
-
-          <form onSubmit={loginSubmit} method="post">
+          <form onSubmit={loginSubmit}>
             <div className="mb-2">
               <label htmlFor="user" className="label text-xs">
                 Nomor telepon
@@ -129,25 +134,6 @@ const Signin = () => {
                 </p>
               )}
             </div>
-            {/* <div className="mb-2">
-                <label htmlFor="password" className="label">
-                  Kata Sandi
-                </label>
-                <input
-                  type="password"
-                  placeholder="Kata Sandi"
-                  className="input input-bordered w-full"
-                  name="password"
-                  onChange={handleInput}
-                  value={loginInput.password}
-                />
-                {loginInput.error_list.includes("Kata sandi harus terisi.") && (
-                  <p className="text-red-500 text-sm">
-                    Kata sandi harus terisi.
-                  </p>
-                )}
-              </div> */}
-
             <div className="mb-2 relative">
               <label htmlFor="password" className="label text-xs">
                 Password
@@ -207,7 +193,6 @@ const Signin = () => {
                 )}
               </span>
             </div>
-
             <button
               className="mt-6 bg-blue-950 text-sm text-white hover:opacity-90 font-bold py-3 rounded-lg w-full transition duration-300"
               disabled={isPressed}

@@ -16,28 +16,27 @@ interface City {
 }
 
 interface FormData {
-  id_member: string;
-  namaLengkap: string;
-  notelpon: string;
+  memberID: string;
+  fullName: string;
+  phone: string;
   email: string;
   password: string;
   pin: string;
-  provinsi: string;
-  kota: string;
-  alamat: string;
-  kelamin: string;
-  tglLahir: string;
+  province: string;
+  city: string;
+  gender: string;
+  dateofBirth: string;
   minatKategori: string;
 }
 
 const ValidateFormData = () => {
   const router = useRouter();
-  const memberID =
+  const id =
     typeof window !== "undefined"
       ? localStorage.getItem("auth_memberID")
       : null;
 
-  if (typeof window !== "undefined" && memberID == null) {
+  if (typeof window !== "undefined" && id == null) {
     window.location.href = "/";
   }
 
@@ -47,17 +46,16 @@ const ValidateFormData = () => {
   const [province, setProvince] = useState<Province[]>([]);
   const [city, setCity] = useState<City[]>([]);
   const [data, setData] = useState<FormData>({
-    id_member: "",
-    namaLengkap: "",
-    notelpon: "",
+    memberID: "",
+    fullName: "",
+    phone: "",
     email: "",
     password: "",
     pin: "",
-    provinsi: "",
-    kota: "",
-    alamat: "",
-    kelamin: "",
-    tglLahir: "",
+    province: "",
+    city: "",
+    gender: "",
+    dateofBirth: "",
     minatKategori: "-",
   });
 
@@ -65,20 +63,19 @@ const ValidateFormData = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/profile?id_member=${memberID}`
+          `https://golangapi-j5iu.onrender.com/api/member/mobile/profile?memberID=${id}`
         );
         const memberData = response.data.memberData;
         setData({
           ...data,
-          id_member: memberID ?? "",
-          namaLengkap: memberData.nama,
-          notelpon: memberData.notelpon,
+          memberID: id ?? "",
+          fullName: memberData.fullName,
+          phone: memberData.phone,
           email: memberData.email,
-          provinsi: memberData.idProvinsi,
-          kota: memberData.idKota,
-          alamat: memberData.alamat,
-          kelamin: memberData.jenisKelamin === "PRIA" ? "L" : "P",
-          tglLahir: memberData.tanggalLahir,
+          province: memberData.provinceID,
+          city: memberData.cityID,
+          gender: memberData.gender === "PRIA" ? "L" : "P",
+          dateofBirth: memberData.dateofBirth,
           minatKategori: "-",
         });
         console.log(memberData);
@@ -88,8 +85,8 @@ const ValidateFormData = () => {
         setLoading(false);
       }
     };
-    if (memberID) fetchProfile();
-  }, [memberID]); // Add idMember as a dependency
+    if (id) fetchProfile();
+  }, [id]); // Add id as a dependency
 
   useEffect(() => {
     const fetchProvince = async () => {
@@ -106,10 +103,10 @@ const ValidateFormData = () => {
   }, []);
 
   useEffect(() => {
-    if (data.provinsi) {
+    if (data.province) {
       axios
         .get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/cities?provID=${data.provinsi}`
+          `https://golangapi-j5iu.onrender.com/api/member/mobile/cities?provID=${data.province}`
         )
         .then((response) => {
           setCity(response.data.citiesData);
@@ -118,7 +115,7 @@ const ValidateFormData = () => {
           console.log(error);
         });
     }
-  }, [data.provinsi]);
+  }, [data.province]);
 
   // const handleChange = (
   //   e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -222,10 +219,10 @@ const ValidateFormData = () => {
                 </label>
                 <input
                   type="text"
-                  name="namaLengkap"
+                  name="fullName"
                   placeholder="Johan Saputra"
                   className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={data.namaLengkap}
+                  value={data.fullName}
                   onChange={handleChange}
                 />
               </div>
@@ -235,10 +232,10 @@ const ValidateFormData = () => {
                 </label>
                 <input
                   type="tel"
-                  name="notelpon"
+                  name="phone"
                   placeholder="08123xxxxxx"
                   className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={data.notelpon}
+                  value={data.phone}
                   onChange={handleChange}
                 />
               </div>
@@ -316,16 +313,16 @@ const ValidateFormData = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label htmlFor="provinsi" className="label text-xs">
+                  <label htmlFor="province" className="label text-xs">
                     Provinsi
                   </label>
                   <select
-                    name="provinsi"
+                    name="province"
                     className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={data.provinsi}
+                    value={data.province}
                     onChange={handleChange}
                   >
-                    <option>Pilih Provinsi</option>
+                    <option>Pilih provinsi</option>
                     {province.map((prov) => (
                       <option key={prov.prov_id} value={prov.prov_id}>
                         {prov.prov_name}
@@ -334,16 +331,16 @@ const ValidateFormData = () => {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="kota" className="label text-xs">
+                  <label htmlFor="city" className="label text-xs">
                     Kota
                   </label>
                   <select
-                    name="kota"
+                    name="city"
                     className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={data.kota}
+                    value={data.city}
                     onChange={handleChange}
                   >
-                    <option>Pilih Kota</option>
+                    <option>Pilih kota</option>
                     {city.map((cit) => (
                       <option key={cit.city_id} value={cit.city_id}>
                         {cit.city_name}
@@ -353,39 +350,28 @@ const ValidateFormData = () => {
                 </div>
               </div>
               <div className="mb-2">
-                <label htmlFor="alamat" className="label text-xs">
-                  Alamat Lengkap
-                </label>
-                <textarea
-                  name="alamat"
-                  className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={data.alamat}
-                  onChange={handleChange}
-                ></textarea>
-              </div>
-              <div className="mb-2">
-                <label htmlFor="kelamin" className="label text-xs">
-                  Jenis Kelamin
+                <label htmlFor="gender" className="label text-xs">
+                  Jenis gender
                 </label>
                 <select
-                  name="kelamin"
+                  name="gender"
                   className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={data.kelamin}
+                  value={data.gender}
                   onChange={handleChange}
                 >
-                  <option value="l">Laki-Laki</option>
-                  <option value="p">Perempuan</option>
+                  <option value="L">PRIA</option>
+                  <option value="P">WANITA</option>
                 </select>
               </div>
               <div className="mb-2">
-                <label htmlFor="tglLahir" className="label text-xs">
+                <label htmlFor="dateofBirth" className="label text-xs">
                   Tanggal Lahir
                 </label>
                 <input
                   type="date"
-                  name="tglLahir"
+                  name="dateofBirth"
                   className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={data.tglLahir}
+                  value={data.dateofBirth}
                   onChange={handleChange}
                 />
               </div>

@@ -6,17 +6,16 @@ import { ToastContainer, toast } from "react-toastify";
 
 // Define the type for signupInput
 interface SignupInput {
-  namaLengkap: string;
-  namaPanggilan: string;
-  notelpon: string;
+  fullName: string;
+  phone: string;
   email: string;
   password: string;
   pin: string;
-  provinsi: string;
-  kota: string;
-  alamat: string;
-  kelamin: string;
-  tglLahir: string;
+  province: string;
+  city: string;
+
+  gender: string;
+  dateofBirth: string;
   minatKategori: string;
   error_list: string[]; // Explicitly define this as a string array
 }
@@ -31,17 +30,15 @@ const Signup = () => {
 
   // Initialize the state for signup input fields and errors
   const [signupInput, setSignupInput] = useState<SignupInput>({
-    namaLengkap: "",
-    namaPanggilan: "",
-    notelpon: "",
+    fullName: "",
+    phone: "",
     email: "",
     password: "",
     pin: "",
-    provinsi: "",
-    kota: "",
-    alamat: "",
-    kelamin: "",
-    tglLahir: "",
+    province: "",
+    city: "",
+    gender: "",
+    dateofBirth: "",
     minatKategori: "-",
     error_list: [], // Initialize as an empty array of strings
   });
@@ -81,9 +78,8 @@ const Signup = () => {
     const errors: string[] = []; // Array to hold validation errors
 
     // Validation checks for each required field
-    if (!data.namaLengkap) errors.push("Nama lengkap harus terisi.");
-    if (!data.namaPanggilan) errors.push("Nama panggilan harus terisi.");
-    if (!data.notelpon) errors.push("Nomor telepon harus terisi.");
+    if (!data.fullName) errors.push("Nama lengkap harus terisi.");
+    if (!data.phone) errors.push("Nomor telepon harus terisi.");
     if (!data.email) errors.push("Email harus terisi.");
 
     // Password validation: must be exactly 6 digits
@@ -98,11 +94,10 @@ const Signup = () => {
       errors.push("Nomor PIN harus terdiri dari 6 digit angka.");
     }
 
-    if (!data.provinsi) errors.push("Provinsi harus terisi.");
-    if (!data.kota) errors.push("Kota harus terisi.");
-    if (!data.alamat) errors.push("Alamat harus terisi.");
-    if (!data.kelamin) errors.push("Jenis kelamin harus terisi.");
-    if (!data.tglLahir) errors.push("Tanggal lahir harus terisi.");
+    if (!data.province) errors.push("Provinsi harus terisi.");
+    if (!data.city) errors.push("Kota harus terisi.");
+    if (!data.gender) errors.push("Jenis gender harus terisi.");
+    if (!data.dateofBirth) errors.push("Tanggal lahir harus terisi.");
 
     // If there are validation errors, set the error_list in state
     if (errors.length > 0) {
@@ -110,29 +105,33 @@ const Signup = () => {
       setIsPressed(false);
     } else {
       try {
-        // API request to register the user
         const res = await axios.post(
           "https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/register",
           data,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
 
-        if (res.data.responseMessage === "success") {
+        if (res.data.responseCode === "2002500") {
           const randomNumber = Math.floor(Math.random() * 900000) + 100000;
           localStorage.setItem("otp", randomNumber.toString());
 
-          // API request to send OTP
-          await axios.post(
-            `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/Verify?userAccount=${data.notelpon}`,
+          const response = await axios.post(
+            `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/Verify?userAccount=${data.phone}`,
             { randomNumber }
           );
 
-          // Store member ID in localStorage and navigate to OTP page
-          localStorage.setItem("memberID", res.data.memberData.memberID);
-          toast.success(`OTP terkirim ke nomor ${data.notelpon}`, {
-            autoClose: 2000,
-          });
-          router.push(`/otpinput/${data.notelpon}`);
+          if (response.data.responseCode === "2002500") {
+            const { memberID } = response.data.loginData || {};
+            localStorage.setItem("auth_memberID", memberID || "");
+            toast.success(`OTP terkirim ke nomor ${data.phone}`, {
+              autoClose: 2000,
+            });
+            router.push(`/otpregister/${data.phone}`);
+          } else {
+            toast.error("Terjadi kesalahan yang tidak terduga", {
+              autoClose: 2000,
+            });
+          }
         } else {
           const message =
             res.data.responseMessage === "User Exists"
@@ -167,10 +166,10 @@ const Signup = () => {
 
   // Fetch cities when a province is selected
   useEffect(() => {
-    if (signupInput.provinsi) {
+    if (signupInput.province) {
       axios
         .get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/cities?provID=${signupInput.provinsi}`
+          `https://golangapi-j5iu.onrender.com/api/member/mobile/cities?provID=${signupInput.province}`
         )
         .then((response) => {
           setCity(response.data.citiesData);
@@ -179,7 +178,7 @@ const Signup = () => {
           console.error(error);
         });
     }
-  }, [signupInput.provinsi]);
+  }, [signupInput.province]);
 
   return (
     <>
@@ -190,18 +189,18 @@ const Signup = () => {
               Daftar Member
             </h1>
             <div className="mb-2">
-              <label htmlFor="fullname" className="label text-xs">
+              <label htmlFor="fullName" className="label text-xs">
                 Nama Lengkap
               </label>
               <input
                 type="text"
-                name="namaLengkap"
+                name="fullName"
                 placeholder="Johan Saputra"
                 className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={signupInput.namaLengkap}
+                value={signupInput.fullName}
                 onChange={handleInput}
               />
-              {/* Show error message for namaLengkap if it exists */}
+              {/* Show error message for fullName if it exists */}
               {signupInput.error_list.includes(
                 "Nama lengkap harus terisi."
               ) && (
@@ -210,39 +209,18 @@ const Signup = () => {
                 </p>
               )}
             </div>
-            {/* Input for namaPanggilan */}
-            <div className="mb-2">
-              <label htmlFor="nickname" className="label text-xs">
-                Nama Panggilan
-              </label>
-              <input
-                type="text"
-                name="namaPanggilan"
-                placeholder="Johan"
-                className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={signupInput.namaPanggilan}
-                onChange={handleInput}
-              />
-              {signupInput.error_list.includes(
-                "Nama panggilan harus terisi."
-              ) && (
-                <p className="text-red-500 text-xs mt-1 ml-2">
-                  Nama panggilan harus terisi.
-                </p>
-              )}
-            </div>
 
-            {/* Input for notelpon */}
+            {/* Input for phone */}
             <div className="mb-2">
-              <label htmlFor="notelpon" className="label text-xs">
+              <label htmlFor="phone" className="label text-xs">
                 Nomor Telepon
               </label>
               <input
                 type="tel"
-                name="notelpon"
+                name="phone"
                 placeholder="08123456789"
                 className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={signupInput.notelpon}
+                value={signupInput.phone}
                 onChange={handleInput}
               />
               {signupInput.error_list.includes(
@@ -274,36 +252,16 @@ const Signup = () => {
               )}
             </div>
 
-            {/* Input for alamat */}
+            {/* Input for dateofBirth */}
             <div className="mb-2">
-              <label htmlFor="alamat" className="label text-xs">
-                Alamat
-              </label>
-              <input
-                type="text"
-                name="alamat"
-                placeholder="Jl. Kebon Jeruk No. 1"
-                className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={signupInput.alamat}
-                onChange={handleInput}
-              />
-              {signupInput.error_list.includes("Alamat harus terisi.") && (
-                <p className="text-red-500 text-xs mt-1 ml-2">
-                  Alamat harus terisi.
-                </p>
-              )}
-            </div>
-
-            {/* Input for tglLahir */}
-            <div className="mb-2">
-              <label htmlFor="tglLahir" className="label text-xs">
+              <label htmlFor="dateofBirth" className="label text-xs">
                 Tanggal Lahir
               </label>
               <input
                 type="date"
-                name="tglLahir"
+                name="dateofBirth"
                 className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={signupInput.tglLahir}
+                value={signupInput.dateofBirth}
                 onChange={handleInput}
               />
               {signupInput.error_list.includes(
@@ -315,65 +273,65 @@ const Signup = () => {
               )}
             </div>
 
-            {/* Dropdown for provinsi */}
+            {/* Dropdown for province */}
             <div className="mb-2">
-              <label htmlFor="provinsi" className="label text-xs">
+              <label htmlFor="province" className="label text-xs">
                 Provinsi
               </label>
               <select
-                name="provinsi"
+                name="province"
                 className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={signupInput.provinsi}
+                value={signupInput.province}
                 onChange={handleInput}
               >
-                <option value="">Pilih Provinsi</option>
+                <option value="">Pilih provinsi</option>
                 {province.map((prov: any) => (
                   <option key={prov.prov_id} value={prov.prov_id}>
                     {prov.prov_name}
                   </option>
                 ))}
               </select>
-              {signupInput.error_list.includes("Provinsi harus terisi.") && (
+              {signupInput.error_list.includes("province harus terisi.") && (
                 <p className="text-red-500 text-xs mt-1 ml-2">
                   Provinsi harus terisi.
                 </p>
               )}
             </div>
 
-            {/* Dropdown for kota */}
+            {/* Dropdown for city */}
             <div className="mb-2">
-              <label htmlFor="kota" className="label text-xs">
+              <label htmlFor="city" className="label text-xs">
                 Kota
               </label>
               <select
-                name="kota"
+                name="city"
                 className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={signupInput.kota}
+                value={signupInput.city}
                 onChange={handleInput}
               >
-                <option value="">Pilih Kota</option>
+                <option value="">Pilih kota</option>
                 {city.map((c: any) => (
                   <option key={c.city_id} value={c.city_id}>
                     {c.city_name}
                   </option>
                 ))}
               </select>
-              {signupInput.error_list.includes("Kota harus terisi.") && (
+              {signupInput.error_list.includes("city harus terisi.") && (
                 <p className="text-red-500 text-xs mt-1 ml-2">
                   Kota harus terisi.
                 </p>
               )}
             </div>
 
-            {/* Dropdown for kelamin */}
+            {/* Dropdown for gender */}
             <div className="mb-2">
-              <label htmlFor="kelamin" className="label text-xs">
-                Jenis Kelamin
+              <label htmlFor="gender" className="label text-xs">
+                Jenis kelamin
               </label>
               <select
-                name="kelamin"
+                name="gender"
                 className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={signupInput.kelamin}
+                value={signupInput.gender}
                 onChange={handleInput}
               >
                 <option value="">Pilih Jenis Kelamin</option>

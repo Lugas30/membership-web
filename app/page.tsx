@@ -10,7 +10,7 @@ import maintain from "../public/website-maintenance.svg";
 export default function LandingPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
-      {/* <div className="bg-white px-6 md:px-16 py-8 rounded-lg shadow-lg w-full max-w-md">
+      <div className="bg-white px-6 md:px-16 py-8 rounded-lg shadow-lg w-full max-w-md">
         <Image
           src={logo}
           alt="Logo"
@@ -59,8 +59,10 @@ export default function LandingPage() {
           <Image src={logo3} alt="Logo" width={75} height={200} />
           <Image src={logo4} alt="Logo" width={75} height={200} />
         </div>
-      </div> */}
-      <div className="bg-white px-10 py-12 rounded-lg shadow-2xl w-full max-w-lg text-center space-y-8">
+      </div>
+
+      {/* Maintenance Layout */}
+      {/* <div className="bg-white px-10 py-12 rounded-lg shadow-2xl w-full max-w-lg text-center space-y-8">
         <h1 className="text-3xl font-semibold text-blue-900">Sorry!</h1>
         <div>
           <Image
@@ -76,12 +78,6 @@ export default function LandingPage() {
           Jika ingin mendaftar member, anda dapat mengunjungi store kami.
         </p>
 
-        {/* <div className="flex items-center justify-center space-x-4">
-          <button className="bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition duration-300">
-            Kunjungi Store Kami
-          </button>
-        </div> */}
-
         <p className="text-xs text-gray-500 mt-4">
           Terima kasih atas kesabaran Anda!
         </p>
@@ -93,7 +89,7 @@ export default function LandingPage() {
           height={100}
           className="mx-auto"
         />
-      </div>
+      </div> */}
     </div>
   );
 }
