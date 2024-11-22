@@ -47,7 +47,7 @@ const Signin = () => {
 
     try {
       const res = await axios.post(
-        "https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/login",
+        "https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/login",
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -66,7 +66,7 @@ const Signin = () => {
 
         //kirim otp ke API post
         const response = await axios.post(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/Verify?userAccount=${loginInput.user}`,
+          `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${loginInput.user}`,
           {
             randomNumber: randomNumber,
           }

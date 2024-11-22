@@ -106,7 +106,7 @@ const Signup = () => {
     } else {
       try {
         const res = await axios.post(
-          "https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/register",
+          "https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/register",
           data,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -116,7 +116,7 @@ const Signup = () => {
           localStorage.setItem("otp", randomNumber.toString());
 
           const response = await axios.post(
-            `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/Verify?userAccount=${data.phone}`,
+            `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${data.phone}`,
             { randomNumber }
           );
 
@@ -154,7 +154,7 @@ const Signup = () => {
     const fetchProvince = async () => {
       try {
         const response = await axios.get(
-          "https://golangapi-j5iu.onrender.com/api/member/mobile/provinces"
+          "https://golangapi-j5iu.onrender.com/api/v2.0/member/mobile/provinces"
         );
         setProvince(response.data.provincesData);
       } catch (error) {
@@ -169,7 +169,7 @@ const Signup = () => {
     if (signupInput.province) {
       axios
         .get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/cities?provID=${signupInput.province}`
+          `https://golangapi-j5iu.onrender.com/api/v2.0/member/mobile/cities?provID=${signupInput.province}`
         )
         .then((response) => {
           setCity(response.data.citiesData);

@@ -63,7 +63,7 @@ const ValidateFormData = () => {
     const fetchProfile = async () => {
       try {
         const response = await axios.get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/profile?memberID=${id}`
+          `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/profile?memberID=${id}`
         );
         const memberData = response.data.memberData;
         setData({
@@ -92,7 +92,7 @@ const ValidateFormData = () => {
     const fetchProvince = async () => {
       try {
         const response = await axios.get(
-          "https://golangapi-j5iu.onrender.com/api/member/mobile/provinces"
+          "https://golangapi-j5iu.onrender.com/api/v2.0/member/mobile/provinces"
         );
         setProvince(response.data.provincesData);
       } catch (error) {
@@ -106,7 +106,7 @@ const ValidateFormData = () => {
     if (data.province) {
       axios
         .get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/cities?provID=${data.province}`
+          `https://golangapi-j5iu.onrender.com/api/v2.0/member/mobile/cities?provID=${data.province}`
         )
         .then((response) => {
           setCity(response.data.citiesData);
@@ -166,7 +166,8 @@ const ValidateFormData = () => {
       updatedData.password;
     }
 
-    let url = "https://golangapi-j5iu.onrender.com/api/member/mobile/profile";
+    let url =
+      "https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/profile";
     axios({
       method: "PUT",
       url: url,

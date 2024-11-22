@@ -27,7 +27,7 @@ const Home = () => {
     const fetchMemberInfo = async () => {
       try {
         const response = await axios.get(
-          `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/info?memberID=${id}`
+          `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/info?memberID=${id}`
         );
         const { memberID, fullName, phone, points } =
           response.data.memberInfoData;

@@ -29,7 +29,7 @@ const ValidatePhoneNumber = () => {
 
     try {
       const response = await axios.post(
-        `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/Verify?userAccount=${data.userAccount}`,
+        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${data.userAccount}`,
         {
           randomNumber: randomNumber,
         }

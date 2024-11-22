@@ -65,7 +65,7 @@ const Otpregister = () => {
       if (memberID) {
         try {
           await axios.post(
-            `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/validate?memberID=${memberID}`
+            `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/validate?memberID=${memberID}`
           );
           toast.success("Member ID berhasil dikirim!", { autoClose: 2000 });
           setTimeout(() => {
@@ -91,7 +91,7 @@ const Otpregister = () => {
       localStorage.setItem("otp", randomNumber.toString());
 
       await axios.post(
-        `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/Verify?userAccount=${notelp}`,
+        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${notelp}`,
         { randomNumber: randomNumber }
       );
 

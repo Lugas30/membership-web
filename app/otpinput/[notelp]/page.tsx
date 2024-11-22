@@ -76,7 +76,7 @@ const OtpInput = () => {
 
       // Send OTP via API
       await axios.post(
-        `https://golangapi-j5iu.onrender.com/api/member/mobile/dashboard/Verify?userAccount=${notelp}`,
+        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${notelp}`,
         { randomNumber: randomNumber }
       );
 
