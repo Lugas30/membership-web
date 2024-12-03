@@ -112,12 +112,16 @@ const Signup = () => {
         );
 
         if (res.data.responseCode === "2002500") {
-          const randomNumber = Math.floor(Math.random() * 900000) + 100000;
-          localStorage.setItem("otp", randomNumber.toString());
+          // const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+          // localStorage.setItem("otp", randomNumber.toString());
+
+          // const response = await axios.post(
+          //   `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${data.phone}`,
+          //   { randomNumber }
+          // );
 
           const response = await axios.post(
-            `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${data.phone}`,
-            { randomNumber }
+            `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${data.phone}`
           );
 
           if (response.data.responseCode === "2002500") {

@@ -78,7 +78,7 @@ const ValidateFormData = () => {
           dateofBirth: memberData.dateofBirth,
           minatKategori: "-",
         });
-        console.log(memberData);
+        // console.log(memberData);
       } catch (error) {
         console.error("Error fetching profile:", error);
       } finally {

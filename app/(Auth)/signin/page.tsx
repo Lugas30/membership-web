@@ -61,18 +61,22 @@ const Signin = () => {
         toast.error("User atau password salah!", { autoClose: 2000 });
       } else if (res.data.responseCode === "4002501") {
         //Tampilkan OTP
-        const randomNumber = Math.floor(Math.random() * 900000) + 100000;
-        localStorage.setItem("otp", randomNumber.toString());
+        // const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+        // localStorage.setItem("otp", randomNumber.toString());
 
         //kirim otp ke API post
+        // const response = await axios.post(
+        //   `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${loginInput.user}`,
+        //   {
+        //     randomNumber: randomNumber,
+        //   }
+        // );
+
         const response = await axios.post(
-          `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${loginInput.user}`,
-          {
-            randomNumber: randomNumber,
-          }
+          `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${loginInput.user}`
         );
 
-        console.log(response.data); // Logging response for debugging
+        // console.log(response.data); // Logging response for debugging
 
         if (response.data.responseCode === "4002500") {
           toast.error("Nomor Telepon Tidak Terdaftar", {

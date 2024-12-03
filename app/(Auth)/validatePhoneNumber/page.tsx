@@ -24,18 +24,18 @@ const ValidatePhoneNumber = () => {
     e.preventDefault();
     setIsPressed(true); // Set loading state while processing
 
-    const randomNumber = Math.floor(Math.random() * 900000) + 100000;
-    localStorage.setItem("otp", randomNumber.toString());
+    // const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+    // localStorage.setItem("otp", randomNumber.toString());
 
     try {
       const response = await axios.post(
-        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${data.userAccount}`,
-        {
-          randomNumber: randomNumber,
-        }
+        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${data.userAccount}`
+        // {
+        //   randomNumber: randomNumber,
+        // }
       );
 
-      console.log(response.data); // Logging response for debugging
+      // console.log(response.data); // Logging response for debugging
 
       if (response.data.responseCode === "4002500") {
         toast.error("Nomor Telepon Tidak Terdaftar", {

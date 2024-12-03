@@ -49,35 +49,71 @@ const OtpInput = () => {
     }
   };
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsPressed(true); // Set isPressed to true when submitting
+
+  //   const otpInput = otpValues.join("");
+  //   const getOtp = localStorage.getItem("otp");
+
+  //   // Validate the OTP
+  //   if (getOtp === otpInput) {
+  //     toast.success("Validasi OTP Berhasil!", { autoClose: 2000 });
+  //     setTimeout(() => {
+  //       router.push("/validateFormData");
+  //     }, 2000);
+  //   } else {
+  //     toast.error("OTP Tidak Valid!", { autoClose: 2000 });
+  //   }
+
+  //   setIsPressed(false); // Reset isPressed after validation
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsPressed(true); // Set isPressed to true when submitting
+    setIsPressed(true);
 
     const otpInput = otpValues.join("");
-    const getOtp = localStorage.getItem("otp");
 
-    // Validate the OTP
-    if (getOtp === otpInput) {
-      toast.success("Validasi OTP Berhasil!", { autoClose: 2000 });
-      setTimeout(() => {
-        router.push("/validateFormData");
-      }, 2000);
-    } else {
-      toast.error("OTP Tidak Valid!", { autoClose: 2000 });
+    // Kirim otpInput dan notelp ke API jika responseCode === 2002500 maka diarahkan ke halaman home
+    try {
+      const response = await axios.post(
+        `https://golangapi-j5iu.onrender.com/send-wa-otp-verify?userAccount=${notelp}&otp=${otpInput}`,
+        {
+          userAccount: notelp,
+          otp: otpInput,
+        }
+      );
+
+      if (response.data.responseCode === "2002500") {
+        toast.success("Validasi OTP Berhasil!", { autoClose: 2000 });
+        setTimeout(() => {
+          router.push("/validateFormData");
+        }, 2000);
+      } else {
+        toast.error("OTP Tidak Valid!", { autoClose: 2000 });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal mengirim OTP!", { autoClose: 2000 });
     }
 
-    setIsPressed(false); // Reset isPressed after validation
+    setIsPressed(false);
   };
 
   const handleOTP = async () => {
     try {
-      const randomNumber = Math.floor(Math.random() * 900000) + 100000;
-      localStorage.setItem("otp", randomNumber.toString());
+      // const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+      // localStorage.setItem("otp", randomNumber.toString());
 
-      // Send OTP via API
+      // // Send OTP via API
+      // await axios.post(
+      //   `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${notelp}`,
+      //   { randomNumber: randomNumber }
+      // );
+
       await axios.post(
-        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${notelp}`,
-        { randomNumber: randomNumber }
+        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${notelp}`
       );
 
       toast.success("OTP Berhasil terkirim", { autoClose: 2000 });

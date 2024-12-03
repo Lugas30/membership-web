@@ -51,48 +51,88 @@ const Otpregister = () => {
     }
   };
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsPressed(true);
+
+  //   const otpInput = otpValues.join("");
+  //   const getOtp = localStorage.getItem("otp"); // Hapus ganti pake respon yang dari server heru
+
+  //   if (getOtp === otpInput) {
+  //     toast.success("Validasi OTP Berhasil!", { autoClose: 2000 });
+
+  //     const memberID = localStorage.getItem("auth_memberID");
+  //     if (memberID) {
+  //       try {
+  //         await axios.post(
+  //           `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/validate?memberID=${memberID}`
+  //         );
+  //         toast.success("Member ID berhasil dikirim!", { autoClose: 2000 });
+  //         setTimeout(() => {
+  //           router.push("/home");
+  //         }, 2000);
+  //       } catch (error) {
+  //         console.error(error);
+  //         toast.error("Gagal mengirim Member ID!", { autoClose: 2000 });
+  //       }
+  //     } else {
+  //       toast.error("Member ID tidak ditemukan!", { autoClose: 2000 });
+  //     }
+  //   } else {
+  //     toast.error("OTP Tidak Valid!", { autoClose: 2000 });
+  //   }
+
+  //   setIsPressed(false);
+  // };
+
+  // Buat handelSubmit yang berfungsi mengirim no telp dan inputan OTP ke API dan bila respons berhasil maka akan diarahkan ke halaman home
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsPressed(true);
 
     const otpInput = otpValues.join("");
-    const getOtp = localStorage.getItem("otp");
 
-    if (getOtp === otpInput) {
-      toast.success("Validasi OTP Berhasil!", { autoClose: 2000 });
-
-      const memberID = localStorage.getItem("auth_memberID");
-      if (memberID) {
-        try {
-          await axios.post(
-            `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/validate?memberID=${memberID}`
-          );
-          toast.success("Member ID berhasil dikirim!", { autoClose: 2000 });
-          setTimeout(() => {
-            router.push("/home");
-          }, 2000);
-        } catch (error) {
-          console.error(error);
-          toast.error("Gagal mengirim Member ID!", { autoClose: 2000 });
+    // Kirim otpInput dan notelp ke API jika responseCode === 2002500 maka diarahkan ke halaman home
+    try {
+      const response = await axios.post(
+        `https://golangapi-j5iu.onrender.com/send-wa-otp-verify?userAccount=${notelp}&otp=${otpInput}`,
+        {
+          userAccount: notelp,
+          otp: otpInput,
         }
+      );
+
+      if (response.data.responseCode === "2002500") {
+        toast.success("Validasi OTP Berhasil!", { autoClose: 2000 });
+        setTimeout(() => {
+          router.push("/home");
+        }, 2000);
       } else {
-        toast.error("Member ID tidak ditemukan!", { autoClose: 2000 });
+        toast.error("OTP Tidak Valid!", { autoClose: 2000 });
       }
-    } else {
-      toast.error("OTP Tidak Valid!", { autoClose: 2000 });
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal mengirim OTP!", { autoClose: 2000 });
     }
 
     setIsPressed(false);
   };
 
+  // Diatas ini baru diupdate
+
   const handleOTP = async () => {
     try {
-      const randomNumber = Math.floor(Math.random() * 900000) + 100000;
-      localStorage.setItem("otp", randomNumber.toString());
+      // const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+      // localStorage.setItem("otp", randomNumber.toString());
+
+      // await axios.post(
+      //   `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${notelp}`,
+      //   { randomNumber: randomNumber }
+      // );
 
       await axios.post(
-        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${notelp}`,
-        { randomNumber: randomNumber }
+        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/Verify?userAccount=${notelp}`
       );
 
       toast.success("OTP Berhasil terkirim", { autoClose: 2000 });
