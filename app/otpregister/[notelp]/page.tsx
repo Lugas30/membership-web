@@ -96,7 +96,7 @@ const Otpregister = () => {
     // Kirim otpInput dan notelp ke API jika responseCode === 2002500 maka diarahkan ke halaman home
     try {
       const response = await axios.post(
-        `https://golangapi-j5iu.onrender.com/send-wa-otp-verify?userAccount=${notelp}&otp=${otpInput}`,
+        `https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/register/validate?userAccount=${notelp}&otp=${otpInput}`,
         {
           userAccount: notelp,
           otp: otpInput,

@@ -173,6 +173,14 @@ const ValidateFormData = () => {
       url: url,
       data: updatedData,
       headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    let url2 =
+      "https://golangapi-j5iu.onrender.com/api/v1.0/member/mobile/dashboard/validate?memberID=" +
+      id;
+    axios({
+      method: "POST",
+      url: url2,
     })
       .then((response) => {
         if (response.data.responseCode === "2002500") {
