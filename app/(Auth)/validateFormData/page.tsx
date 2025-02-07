@@ -243,10 +243,10 @@ const ValidateFormData = () => {
                   type="tel"
                   name="phone"
                   placeholder="08123xxxxxx"
-                  className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="mt-2 p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-200"
                   value={data.phone}
                   onChange={handleChange}
-                  disabled={true}
+                  disabled
                 />
               </div>
               <div className="mb-2">
